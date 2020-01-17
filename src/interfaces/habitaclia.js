@@ -8,16 +8,13 @@ const url = 'https://www.habitaclia.com/alquiler-poble_sec-barcelona.htm?filtro_
 const maxPrice = 1050
 
 const getHTML = async () => {
-    //     const browser = await puppeteer.launch(chromeOptions)
-    //     const page = await browser.newPage()
-    //     await page.goto(url)
-    //     const content = await page.content()
-    //     fs.writeFileSync(path.resolve(__dirname, '../assets/habitaclia.html'), content)
-    const file = fs.readFileSync(path.resolve(__dirname, '../assets/habitaclia.html'))
-
-    // console.log('aqui')
-    // return content
-    return file
+    const browser = await puppeteer.launch(chromeOptions)
+    const page = await browser.newPage()
+    await page.goto(url)
+    await page.waitForSelector('.js-list-item')
+    await page.waitFor(1000)
+    const content = await page.content()
+    return content
 }
 
 const scrapeHTML = async (html) => {

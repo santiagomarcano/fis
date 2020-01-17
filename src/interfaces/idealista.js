@@ -2,8 +2,6 @@ import puppeteer from 'puppeteer'
 import cheerio from 'cheerio'
 import chromeOptions from '../../browserConfig'
 import Department from 'models/Department.model'
-import fs from 'fs'
-import path from 'path'
 const url = 'https://www.idealista.com/alquiler-viviendas/barcelona/sants-montjuic/el-poble-sec-parc-de-montjuic/con-precio-hasta_1100,precio-desde_800,de-dos-dormitorios,de-tres-dormitorios,de-cuatro-cinco-habitaciones-o-mas/'
 
 const getHTML = async () => {
@@ -11,7 +9,6 @@ const getHTML = async () => {
     const page = await browser.newPage();
     await page.goto(url);
     const content = await page.content()
-    fs.writeFileSync(path.resolve(__dirname, '../assets/idealista.html'), content)
     if (content.includes('robot')) {
         console.log('Idealista fuckedup')
         return false
@@ -48,7 +45,6 @@ const idealista = async () => {
             result,
             { new: true, upsert: true }
         )
-        console.log(department)
     })
 }
 
