@@ -28,10 +28,10 @@ const server = app.listen(port, () => {
 const db = mongoose.connection;
 
 db.on('err', err => console.log(err))
-db.once('open', err => {
+db.once('open', async (err) => {
     if (err) console.log(err)
     console.log(`Server started & DB connected. ${port}`)
-    tasks()
+    await tasks()
 })
 
 export default server

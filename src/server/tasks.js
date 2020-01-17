@@ -7,12 +7,12 @@ const random = (min, max) => {
 }
 
 const tasks = async () => {
-    const cicle = () => {
-        const timing = random(432000, 216000)
-        console.log(timing)
-        setTimeout(cicle, timing);
-    }
-    cicle()
+    // const cicle = () => {
+    //     const timing = random(432000, 216000)
+    //     console.log(timing)
+    //     setTimeout(cicle, timing);
+    // }
+    // cicle()
     // await idealista()
     await habitaclia()
     console.log('DONE')
