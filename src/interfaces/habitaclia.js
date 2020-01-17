@@ -9,6 +9,7 @@ const maxPrice = 1050
 
 const getHTML = async () => {
     const browser = await puppeteer.launch(chromeOptions)
+    console.log('browser launched')
     const page = await browser.newPage()
     await page.goto(url)
     await page.waitForSelector('.js-list-item')
