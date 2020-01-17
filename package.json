@@ -9,6 +9,9 @@
     "build": "webpack --mode=production",
     "start": "node ./dist/server.js"
   },
+  "engines": {
+    "node": "12.14.1"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
