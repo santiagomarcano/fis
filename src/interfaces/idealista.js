@@ -2,9 +2,9 @@ import puppeteer from 'puppeteer'
 import cheerio from 'cheerio'
 import chromeOptions from '../../browserConfig'
 import Department from 'models/Department.model'
-const url = 'https://www.idealista.com/alquiler-viviendas/barcelona/sants-montjuic/el-poble-sec-parc-de-montjuic/con-precio-hasta_1100,precio-desde_800,de-dos-dormitorios,de-tres-dormitorios,de-cuatro-cinco-habitaciones-o-mas/'
 import fs from 'fs'
 import path from 'path'
+const url = 'https://www.idealista.com/alquiler-viviendas/barcelona/sants-montjuic/el-poble-sec-parc-de-montjuic/con-precio-hasta_1100,precio-desde_800,de-dos-dormitorios,de-tres-dormitorios,de-cuatro-cinco-habitaciones-o-mas/'
 
 const getHTML = async () => {
     const browser = await puppeteer.launch(chromeOptions);
@@ -20,7 +20,7 @@ const getHTML = async () => {
     return content
 }
 
-const scrapeHTML = async (html) => {
+const scrapeHTML = (html) => {
     const $ = cheerio.load(html)
     const items = $('.item')
     const results = []

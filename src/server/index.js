@@ -2,12 +2,16 @@ import { config } from 'dotenv'
 import express from 'express'
 import mongoose from 'mongoose'
 import tasks from './tasks'
+import Department from 'models/Department.model'
+
 config()
 const app = express()
 const port = process.env.PORT
 
-app.get('/', (req, res) => {
-
+app.get('/all', async (req, res) => {
+    const results = await Department.find({})
+    res.send(results)
+    res.sendStatus(200)
 })
 
 const server = app.listen(port, () => {
