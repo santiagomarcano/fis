@@ -14,7 +14,7 @@ const tasks = async () => {
     }
     cicle()
     // await idealista()
-    // await habitaclia()
+    await habitaclia()
     // await fotocasa()
 }
 
