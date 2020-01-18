@@ -1,11 +1,8 @@
 import puppeteer from 'puppeteer'
 import Department from 'models/Department.model'
 import cheerio from 'cheerio'
-import fs from 'fs'
-import path from 'path'
 import chromeOptions from '../../browserConfig'
 const url = 'https://www.habitaclia.com/alquiler-poble_sec-barcelona.htm?filtro_periodo=3&hab=2&pmin=800&pmax=1100&codzonas=301&coddists=300'
-const maxPrice = 1050
 
 const getHTML = async () => {
     const browser = await puppeteer.launch({ ...chromeOptions, executablePath: process.env.CHROME_EXECUTABLE_PATH })
@@ -46,6 +43,7 @@ const scrapeHTML = (html) => {
 
 const habitaclia = async () => {
     const html = await getHTML()
+    console.log(html)
     if (!html) return html
     const results = scrapeHTML(html)
     console.log('Trigger habitaclia')
