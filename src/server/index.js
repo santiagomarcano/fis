@@ -11,7 +11,6 @@ const port = process.env.PORT
 app.get('/all', async (req, res) => {
     const results = await Department.find({})
     res.send(results)
-    res.sendStatus(200)
 })
 
 const server = app.listen(port, () => {

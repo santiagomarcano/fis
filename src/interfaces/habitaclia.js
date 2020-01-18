@@ -48,7 +48,7 @@ const habitaclia = async () => {
     const html = await getHTML()
     if (!html) return html
     const results = scrapeHTML(html)
-    console.log(results)
+    console.log('Trigger habitaclia')
     results.forEach(async (result) => {
         console.log(result)
         const department = await Department.findOneAndUpdate(
@@ -58,6 +58,8 @@ const habitaclia = async () => {
         )
         console.log(department)
     })
+    console.log('After db write')
+    return null
 }
 
 export default habitaclia

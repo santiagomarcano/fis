@@ -15,7 +15,7 @@ const tasks = async () => {
     // cicle()
     // await idealista()
     await habitaclia()
-    console.log('AFTER SCRIPT')
+    console.log('DONE')
     // await fotocasa()
 }
 
