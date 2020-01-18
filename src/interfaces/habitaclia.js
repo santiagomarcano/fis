@@ -8,8 +8,7 @@ const url = 'https://www.habitaclia.com/alquiler-poble_sec-barcelona.htm?filtro_
 const maxPrice = 1050
 
 const getHTML = async () => {
-    console.log('Trying to launch browser')
-    const browser = await puppeteer.launch(chromeOptions)
+    const browser = await puppeteer.launch({ ...chromeOptions, executablePath: process.env.CHROME_EXECUTABLE_PATH })
     console.log('Browser launched')
     const page = await browser.newPage()
     await page.goto(url)

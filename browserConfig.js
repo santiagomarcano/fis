@@ -1,5 +1,6 @@
+console.log(process.env.CHROME_EXECUTABLE_PATH)
+
 const chromeOptions = {
-    executablePath: process.env.CHROME_EXECUTABLE_PATH,
     headless: true,
     slowMo: 1000,
     devtools: true,
@@ -10,4 +11,3 @@ const chromeOptions = {
 }
 
 export default chromeOptions
-'/app/node_modules/puppeteer/.local-chromium/linux-706915/chrome-linux/chrome'
