@@ -8,11 +8,15 @@ const url = 'https://www.habitaclia.com/alquiler-poble_sec-barcelona.htm?filtro_
 const maxPrice = 1050
 
 const getHTML = async () => {
+    console.log('Trying to launch browser')
     const browser = await puppeteer.launch(chromeOptions)
+    console.log('Browser launched')
     const page = await browser.newPage()
     await page.goto(url)
     await page.waitFor(1000)
     const content = await page.content()
+    await browser.close()
+    console.log('Browser closed..')
     return content
 }
 
@@ -45,7 +49,9 @@ const habitaclia = async () => {
     const html = await getHTML()
     if (!html) return html
     const results = scrapeHTML(html)
+    console.log(results)
     results.forEach(async (result) => {
+        console.log(result)
         const department = await Department.findOneAndUpdate(
             { reference: result.reference },
             result,
