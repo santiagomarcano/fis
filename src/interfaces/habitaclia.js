@@ -16,7 +16,7 @@ const getHTML = async () => {
     return content
 }
 
-const scrapeHTML = async (html) => {
+const scrapeHTML = (html) => {
     const $ = cheerio.load(html)
     const items = $('.js-list-item.list-item-container')
     const results = []
@@ -44,13 +44,14 @@ const scrapeHTML = async (html) => {
 const habitaclia = async () => {
     const html = await getHTML()
     if (!html) return html
-    const results = await scrapeHTML(html)
+    const results = scrapeHTML(html)
     results.forEach(async (result) => {
         const department = await Department.findOneAndUpdate(
             { reference: result.reference },
             result,
             { new: true, upsert: true }
         )
+        console.log(department)
     })
 }
 
