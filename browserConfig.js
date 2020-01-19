@@ -1,7 +1,5 @@
-console.log(process.env.CHROME_EXECUTABLE_PATH)
-
 const chromeOptions = {
-    headless: true,
+    headless: false,
     slowMo: 1000,
     devtools: true,
     args: [

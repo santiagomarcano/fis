@@ -8,14 +8,12 @@ const url = 'https://www.habitaclia.com/alquiler-poble_sec-barcelona.htm?filtro_
 
 const getHTML = async () => {
     const browser = await puppeteer.launch({ ...chromeOptions, executablePath: process.env.CHROME_EXECUTABLE_PATH })
-    console.log('Browser launched')
     const page = await browser.newPage()
     await page.goto(url)
     await page.waitFor(1000)
     const content = await page.content()
     fs.writeFileSync(path.resolve(__dirname, '../assets/habitaclia.html'), content)
     await browser.close()
-    console.log('Browser closed..')
     return content
 }
 
@@ -50,15 +48,12 @@ const habitaclia = async () => {
     if (!html) return html
     const results = scrapeHTML(html)
     results.forEach(async (result) => {
-        console.log(result)
         const department = await Department.findOneAndUpdate(
             { reference: result.reference },
             result,
             { new: true, upsert: true }
         )
-        console.log(department)
     })
-    console.log('After db write')
     return null
 }
 

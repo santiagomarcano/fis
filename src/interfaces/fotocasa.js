@@ -3,15 +3,9 @@ import Department from 'models/Department.model'
 import cheerio from 'cheerio'
 import fs from 'fs'
 import path from 'path'
-import CryptoJS from 'crypto-js'
 import chromeOptions from '../../browserConfig'
 const url = 'https://www.fotocasa.es/es/alquiler/viviendas/barcelona-capital/el-poble-sec-parc-de-montjuic/l?latitude=41.372999462171705&longitude=2.1620516134588734&minPrice=800&maxPrice=1100&minRooms=2&combinedLocationIds=724,9,8,232,376,8019,0,1144,297&gridType=3'
 const baseUrl = 'https://www.fotocasa.es'
-const maxPrice = 1050
-
-function imagesHaveLoaded() {
-    return Array.from(document.images).every((i) => i.complete);
-}
 
 const scrollAndWait = async (page) => {
     await page.evaluate(() => {
@@ -21,10 +15,9 @@ const scrollAndWait = async (page) => {
 }
 
 const getHTML = async () => {
-    const browser = await puppeteer.launch(chromeOptions)
 
+    const browser = await puppeteer.launch({ ...chromeOptions, executablePath: process.env.CHROME_EXECUTABLE_PATH })
     const page = await browser.newPage()
-
     await page.goto(url, { waitUntil: 'networkidle0' })
 
     for (let i = 0; i < 60; i++) {
@@ -34,6 +27,8 @@ const getHTML = async () => {
 
     const content = await page.content()
     fs.writeFileSync(path.resolve(__dirname, '../assets/fotocasa.html'), content)
+    await browser.close()
+
     return content
 }
 
@@ -54,9 +49,7 @@ const scrapeHTML = (html) => {
         }
         results.push(item)
     })
-    console.log(results[results.length - 1])
     return results
-
 }
 
 const fotocasa = async () => {

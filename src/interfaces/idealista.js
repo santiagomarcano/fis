@@ -2,13 +2,17 @@ import puppeteer from 'puppeteer'
 import cheerio from 'cheerio'
 import chromeOptions from '../../browserConfig'
 import Department from 'models/Department.model'
+import fs from 'fs'
+import path from 'path'
+
 const url = 'https://www.idealista.com/alquiler-viviendas/barcelona/sants-montjuic/el-poble-sec-parc-de-montjuic/con-precio-hasta_1100,precio-desde_800,de-dos-dormitorios,de-tres-dormitorios,de-cuatro-cinco-habitaciones-o-mas/'
 
 const getHTML = async () => {
-    const browser = await puppeteer.launch(chromeOptions);
+    const browser = await puppeteer.launch({ ...chromeOptions, executablePath: process.env.CHROME_EXECUTABLE_PATH })
     const page = await browser.newPage();
     await page.goto(url);
     const content = await page.content()
+    fs.writeFileSync(path.resolve(__dirname, '../assets/description.html'), content)
     if (content.includes('robot')) {
         console.log('Idealista fuckedup')
         return false
@@ -28,7 +32,8 @@ const scrapeHTML = (html) => {
             link: 'https://idealista.com' + $(e).find('.item-link').attr('href'),
             price: $(e).find('.item-price.h2-simulated').text().split('/')[0],
             title: $(e).find('.item-link').text(),
-            contact: $(e).find('.icon-phone.item-not-clickable-phone').text()
+            contact: $(e).find('.icon-phone.item-not-clickable-phone').text(),
+            description: $(e).find('p.ellipsis').text()
         }
         results.push(item)
     })

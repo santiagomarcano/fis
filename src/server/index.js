@@ -11,7 +11,8 @@ const port = process.env.PORT
 app.use(cors())
 
 app.get('/all', async (req, res) => {
-    const results = await Department.find({})
+    const recents = new Date(Date.now() - 3600000)
+    const results = await Department.find({ updatedAt: { $gte: recents } })
     res.send(results)
 })
 
