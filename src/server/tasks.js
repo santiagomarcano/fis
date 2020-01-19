@@ -11,21 +11,32 @@ const random = (min, max) => {
 
 const toMilliseconds = (seconds) => seconds * 1000
 
+const isDayTime = () => {
+    const hours = new Date().getHours()
+    if (hours > 5 && hours < 23) {
+        return true
+    }
+    return false
+}
+
 const tasks = async () => {
     const cicle = async () => {
         // Promise.all([idealista(), habitaclia(), fotocasa()]) // Puede ser?
-        await idealista()
-        console.log('i done')
-        await habitaclia()
-        console.log('h done')
-        await fotocasa()
-        console.log('f done')
+        if (isDayTime) {
+            await idealista()
+            console.log('i done')
+            await habitaclia()
+            console.log('h done')
+            await fotocasa()
+            console.log('f done')
+        }
         const oneHour = toMilliseconds(3600)
         const timing = random(oneHour, oneHour * 1.5)
         const newTask = new Task({
             programmed: new Date(timing + Date.now()).toString()
         })
         await newTask.save()
+        console.log(`New task scheduled @ ${newTask.programmed}`)
         setTimeout(cicle, timing);
     }
     await cicle()
