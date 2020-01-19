@@ -7,7 +7,7 @@ const Department = new mongoose.Schema({
     title: String,
     reference: String,
     contact: String,
-    date: { type: Date, default: Date.now },
-})
+    description: String,
+}, { timestamps: true })
 
 export default mongoose.model('Department', Department)

@@ -2,6 +2,8 @@ import puppeteer from 'puppeteer'
 import Department from 'models/Department.model'
 import cheerio from 'cheerio'
 import chromeOptions from '../../browserConfig'
+import fs from 'fs'
+import path from 'path'
 const url = 'https://www.habitaclia.com/alquiler-poble_sec-barcelona.htm?filtro_periodo=3&hab=2&pmin=800&pmax=1100&codzonas=301&coddists=300'
 
 const getHTML = async () => {
@@ -11,6 +13,7 @@ const getHTML = async () => {
     await page.goto(url)
     await page.waitFor(1000)
     const content = await page.content()
+    fs.writeFileSync(path.resolve(__dirname, '../assets/habitaclia.html'), content)
     await browser.close()
     console.log('Browser closed..')
     return content
@@ -33,7 +36,8 @@ const scrapeHTML = (html) => {
             link: $(e).find('h3 > a').attr('href'),
             price: $(e).find('span.font-2').text(),
             title: $(e).find('h3 > a').attr('title'),
-            contact: $(e).find('.icon-phone.item-not-clickable-phone').text()
+            contact: $(e).find('.icon-phone.item-not-clickable-phone').text(),
+            description: $(e).find('p.list-item-description').text()
         }
         results.push(item)
     })
@@ -43,10 +47,8 @@ const scrapeHTML = (html) => {
 
 const habitaclia = async () => {
     const html = await getHTML()
-    console.log(html)
     if (!html) return html
     const results = scrapeHTML(html)
-    console.log('Trigger habitaclia')
     results.forEach(async (result) => {
         console.log(result)
         const department = await Department.findOneAndUpdate(
